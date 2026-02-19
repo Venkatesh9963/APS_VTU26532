@@ -1,33 +1,27 @@
 class Solution {
     public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
         List<List<Integer>> result = new ArrayList<>();
-        List<Integer> currentPath = new ArrayList<>();
-        
-        dfs(root, targetSum, currentPath, result);
+        backtrack(root, targetSum, new ArrayList<>(), result);
         return result;
     }
     
-    private void dfs(TreeNode node, int remainingSum,
-                     List<Integer> currentPath,
-                     List<List<Integer>> result) {
+    private void backtrack(TreeNode node, int sum, 
+                           List<Integer> path, 
+                           List<List<Integer>> result) {
         
         if (node == null) return;
         
-        // Add current node to path
-        currentPath.add(node.val);
+        path.add(node.val);
         
-        // If it's a leaf and sum matches
-        if (node.left == null && node.right == null
-            && remainingSum == node.val) {
-            
-            result.add(new ArrayList<>(currentPath));
-        }
-        else {
-            dfs(node.left, remainingSum - node.val, currentPath, result);
-            dfs(node.right, remainingSum - node.val, currentPath, result);
+        // If leaf and sum matches
+        if (node.left == null && node.right == null && sum == node.val) {
+            result.add(new ArrayList<>(path));
+        } else {
+            backtrack(node.left, sum - node.val, path, result);
+            backtrack(node.right, sum - node.val, path, result);
         }
         
-        // Backtrack (remove last element)
-        currentPath.remove(currentPath.size() - 1);
+        // Backtrack
+        path.remove(path.size() - 1);
     }
 }
