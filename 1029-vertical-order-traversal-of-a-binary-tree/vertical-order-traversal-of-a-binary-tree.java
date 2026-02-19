@@ -1,39 +1,47 @@
 class Solution {
+    
+    class Node {
+        int row, col, val;
+        Node(int r, int c, int v) {
+            row = r;
+            col = c;
+            val = v;
+        }
+    }
+    
+    List<Node> list = new ArrayList<>();
+    
     public List<List<Integer>> verticalTraversal(TreeNode root) {
-        List<int[]> list = new ArrayList<>();
-        
-        dfs(root, 0, 0, list);
+        dfs(root, 0, 0);
         
         // Sort by column, then row, then value
         Collections.sort(list, (a, b) -> {
-            if (a[0] != b[0]) return a[0] - b[0]; // column
-            if (a[1] != b[1]) return a[1] - b[1]; // row
-            return a[2] - b[2];                   // value
+            if (a.col != b.col)
+                return a.col - b.col;
+            if (a.row != b.row)
+                return a.row - b.row;
+            return a.val - b.val;
         });
         
         List<List<Integer>> result = new ArrayList<>();
         int prevCol = Integer.MIN_VALUE;
         
-        for (int[] node : list) {
-            int col = node[0], val = node[2];
-            
-            if (col != prevCol) {
+        for (Node node : list) {
+            if (node.col != prevCol) {
                 result.add(new ArrayList<>());
-                prevCol = col;
+                prevCol = node.col;
             }
-            
-            result.get(result.size() - 1).add(val);
+            result.get(result.size() - 1).add(node.val);
         }
         
         return result;
     }
     
-    private void dfs(TreeNode node, int row, int col, List<int[]> list) {
-        if (node == null) return;
+    private void dfs(TreeNode root, int row, int col) {
+        if (root == null) return;
         
-        list.add(new int[]{col, row, node.val});
-        
-        dfs(node.left, row + 1, col - 1, list);
-        dfs(node.right, row + 1, col + 1, list);
+        list.add(new Node(row, col, root.val));
+        dfs(root.left, row + 1, col - 1);
+        dfs(root.right, row + 1, col + 1);
     }
 }
