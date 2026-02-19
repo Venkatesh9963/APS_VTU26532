@@ -4,18 +4,12 @@ class Solution {
         return isMirror(root.left, root.right);
     }
     
-    private boolean isMirror(TreeNode left, TreeNode right) {
-        // Both null → symmetric
-        if (left == null && right == null) return true;
+    public boolean isMirror(TreeNode t1, TreeNode t2) {
+        if (t1 == null && t2 == null) return true;
+        if (t1 == null || t2 == null) return false;
         
-        // One null → not symmetric
-        if (left == null || right == null) return false;
-        
-        // Values must match
-        if (left.val != right.val) return false;
-        
-        // Mirror condition
-        return isMirror(left.left, right.right) &&
-               isMirror(left.right, right.left);
+        return (t1.val == t2.val) &&
+               isMirror(t1.left, t2.right) &&
+               isMirror(t1.right, t2.left);
     }
 }
