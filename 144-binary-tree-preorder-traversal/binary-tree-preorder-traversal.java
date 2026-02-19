@@ -8,8 +8,8 @@ class Solution {
     private void preorder(TreeNode node, List<Integer> result) {
         if (node == null) return;
         
-        result.add(node.val);        // Root
-        preorder(node.left, result); // Left
-        preorder(node.right, result);// Right
+        result.add(node.val);         // Root
+        preorder(node.left, result);  // Left
+        preorder(node.right, result); // Right
     }
 }
